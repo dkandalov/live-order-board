@@ -15,8 +15,12 @@ public class Quantity {
         this.value = value;
     }
 
-    public Quantity add(Quantity that) {
+    public Quantity plus(Quantity that) {
         return new Quantity(value.add(that.value));
+    }
+
+    public Quantity minus(Quantity that) {
+        return new Quantity(value.subtract(that.value));
     }
 
     @Override public String toString() {
@@ -27,7 +31,7 @@ public class Quantity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Quantity quantity = (Quantity) o;
-        return value.equals(quantity.value);
+        return value.unscaledValue().equals(quantity.value.unscaledValue());
     }
 
     @Override public int hashCode() {
