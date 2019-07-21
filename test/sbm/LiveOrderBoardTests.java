@@ -14,12 +14,12 @@ import static sbm.Order.Type.SELL;
 public class LiveOrderBoardTests {
     private final LiveOrderBoard orderBoard = new LiveOrderBoard();
 
-    @Test public void emptyOrderBoard() {
+    @Test public void emptyOrderBoardSummary() {
         assertThat(orderBoard.summaryOf(SELL), equalTo(emptyMap()));
         assertThat(orderBoard.summaryOf(BUY), equalTo(emptyMap()));
     }
 
-    @Test public void sellSideExample() {
+    @Test public void exampleOfCellSideSummary() {
         List<Order> orders = List.of(
                 new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), SELL),
                 new Order(new UserId("user2"), new Quantity("1.2"), new Price(310), SELL),
@@ -39,7 +39,7 @@ public class LiveOrderBoardTests {
         assertThat(orderBoard.summaryOf(BUY), equalTo(emptyMap()));
     }
 
-    @Test public void buyAndSellExample() {
+    @Test public void exampleOfBuyAndSellSummary() {
         List<Order> orders = List.of(
                 new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), BUY),
                 new Order(new UserId("user2"), new Quantity("1.2"), new Price(310), SELL),
