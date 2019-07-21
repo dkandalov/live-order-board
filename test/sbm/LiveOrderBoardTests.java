@@ -60,4 +60,15 @@ public class LiveOrderBoardTests {
                 equalTo(Map.of(new Price(310), new Quantity("1.2")))
         );
     }
+
+    @Test public void cancellingOrderIsReflectedInSummary() {
+        OrderId buyOrderId = orderBoard.register(new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), BUY));
+        orderBoard.cancel(buyOrderId);
+
+        OrderId sellOrderId = orderBoard.register(new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), SELL));
+        orderBoard.cancel(sellOrderId);
+
+        assertThat(orderBoard.summaryOf(SELL), equalTo(emptyMap()));
+        assertThat(orderBoard.summaryOf(BUY), equalTo(emptyMap()));
+    }
 }
