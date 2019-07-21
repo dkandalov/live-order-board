@@ -2,6 +2,7 @@ package sbm;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +33,8 @@ public class LiveOrderBoardTests {
         ).forEach(orderBoard::register);
 
         assertThat(
-                orderBoard.summaryOf(SELL),
-                equalTo(Map.of(
+                asList(orderBoard.summaryOf(SELL)),
+                equalTo(List.of(
                         new Price(306), new Quantity("5.5"),
                         new Price(307), new Quantity("1.5"),
                         new Price(310), new Quantity("1.2")
@@ -44,33 +45,46 @@ public class LiveOrderBoardTests {
 
     @Test public void exampleOfBuyAndSellSummary() {
         List.of(
-                new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), BUY),
+                new Order(user1, new Quantity("3.5"), new Price(306), BUY),
                 new Order(user2, new Quantity("1.2"), new Price(310), SELL),
+                new Order(user2, new Quantity("1.2"), new Price(312), SELL),
                 new Order(user3, new Quantity("1.5"), new Price(307), BUY),
                 new Order(user4, new Quantity("2.0"), new Price(306), BUY)
         ).forEach(orderBoard::register);
 
         assertThat(
-                orderBoard.summaryOf(BUY),
-                equalTo(Map.of(
-                        new Price(306), new Quantity("5.5"),
-                        new Price(307), new Quantity("1.5")
+                asList(orderBoard.summaryOf(BUY)),
+                equalTo(List.of(
+                        new Price(307), new Quantity("1.5"),
+                        new Price(306), new Quantity("5.5")
                 ))
         );
         assertThat(
-                orderBoard.summaryOf(SELL),
-                equalTo(Map.of(new Price(310), new Quantity("1.2")))
+                asList(orderBoard.summaryOf(SELL)),
+                equalTo(List.of(
+                        new Price(310), new Quantity("1.2"),
+                        new Price(312), new Quantity("1.2")
+                ))
         );
     }
 
     @Test public void cancellingOrderIsReflectedInSummary() {
-        OrderId buyOrderId = orderBoard.register(new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), BUY));
+        OrderId buyOrderId = orderBoard.register(new Order(user1, new Quantity("3.5"), new Price(306), BUY));
         orderBoard.cancel(buyOrderId);
 
-        OrderId sellOrderId = orderBoard.register(new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), SELL));
+        OrderId sellOrderId = orderBoard.register(new Order(user1, new Quantity("3.5"), new Price(306), SELL));
         orderBoard.cancel(sellOrderId);
 
         assertThat(orderBoard.summaryOf(SELL), equalTo(emptyMap()));
         assertThat(orderBoard.summaryOf(BUY), equalTo(emptyMap()));
+    }
+
+    private static List<Object> asList(Map<Price, Quantity> summary) {
+        List<Object> result = new ArrayList<>();
+        for (Map.Entry<Price, Quantity> entry : summary.entrySet()) {
+            result.add(entry.getKey());
+            result.add(entry.getValue());
+        }
+        return result;
     }
 }

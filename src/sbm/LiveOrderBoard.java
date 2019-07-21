@@ -4,8 +4,8 @@ import java.util.*;
 
 public class LiveOrderBoard {
     private final LinkedHashMap<OrderId, Order> orders = new LinkedHashMap<>();
-    private final Map<Price, Quantity> buySummary = new HashMap<>();
-    private final Map<Price, Quantity> sellSummary = new HashMap<>();
+    private final TreeMap<Price, Quantity> sellSummary = new TreeMap<>();
+    private final TreeMap<Price, Quantity> buySummary = new TreeMap<>(Comparator.reverseOrder());
 
     public OrderId register(Order order) {
         OrderId orderId = new OrderId();

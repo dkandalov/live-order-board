@@ -2,11 +2,15 @@ package sbm;
 
 import java.util.Objects;
 
-public class Price {
+public class Price implements Comparable<Price> {
     private final int value;
 
     public Price(int value) {
         this.value = value;
+    }
+
+    @Override public int compareTo(Price that) {
+        return Integer.compare(value, that.value);
     }
 
     @Override public String toString() {
