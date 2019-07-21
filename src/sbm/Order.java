@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class Order {
     private final UserId userId;
-    private final BigDecimal quantity;
+    private final Quantity quantity;
     private final Price price;
     private final Type type;
 
-    public Order(UserId userId, BigDecimal quantity, Price price, Type type) {
+    public Order(UserId userId, Quantity quantity, Price price, Type type) {
         this.userId = userId;
         this.quantity = quantity;
         this.price = price;
