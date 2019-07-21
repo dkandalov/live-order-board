@@ -12,6 +12,10 @@ import static sbm.Order.Type.BUY;
 import static sbm.Order.Type.SELL;
 
 public class LiveOrderBoardTests {
+    private final UserId user1 = new UserId("user1");
+    private final UserId user2 = new UserId("user2");
+    private final UserId user3 = new UserId("user3");
+    private final UserId user4 = new UserId("user4");
     private final LiveOrderBoard orderBoard = new LiveOrderBoard();
 
     @Test public void emptyOrderBoardSummary() {
@@ -20,13 +24,12 @@ public class LiveOrderBoardTests {
     }
 
     @Test public void exampleOfCellSideSummary() {
-        List<Order> orders = List.of(
-                new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), SELL),
-                new Order(new UserId("user2"), new Quantity("1.2"), new Price(310), SELL),
-                new Order(new UserId("user3"), new Quantity("1.5"), new Price(307), SELL),
-                new Order(new UserId("user4"), new Quantity("2.0"), new Price(306), SELL)
-        );
-        orders.forEach(orderBoard::register);
+        List.of(
+                new Order(user1, new Quantity("3.5"), new Price(306), SELL),
+                new Order(user2, new Quantity("1.2"), new Price(310), SELL),
+                new Order(user3, new Quantity("1.5"), new Price(307), SELL),
+                new Order(user4, new Quantity("2.0"), new Price(306), SELL)
+        ).forEach(orderBoard::register);
 
         assertThat(
                 orderBoard.summaryOf(SELL),
@@ -40,13 +43,12 @@ public class LiveOrderBoardTests {
     }
 
     @Test public void exampleOfBuyAndSellSummary() {
-        List<Order> orders = List.of(
+        List.of(
                 new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), BUY),
-                new Order(new UserId("user2"), new Quantity("1.2"), new Price(310), SELL),
-                new Order(new UserId("user3"), new Quantity("1.5"), new Price(307), BUY),
-                new Order(new UserId("user4"), new Quantity("2.0"), new Price(306), BUY)
-        );
-        orders.forEach(orderBoard::register);
+                new Order(user2, new Quantity("1.2"), new Price(310), SELL),
+                new Order(user3, new Quantity("1.5"), new Price(307), BUY),
+                new Order(user4, new Quantity("2.0"), new Price(306), BUY)
+        ).forEach(orderBoard::register);
 
         assertThat(
                 orderBoard.summaryOf(BUY),
