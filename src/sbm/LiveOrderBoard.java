@@ -3,7 +3,7 @@ package sbm;
 import java.util.*;
 
 public class LiveOrderBoard {
-    private final LinkedHashMap<OrderId, Order> orders = new LinkedHashMap<>();
+    private final Map<OrderId, Order> orders = new HashMap<>();
     private final TreeMap<Price, Quantity> sellSummary = new TreeMap<>();
     private final TreeMap<Price, Quantity> buySummary = new TreeMap<>(Comparator.reverseOrder());
 
@@ -20,14 +20,9 @@ public class LiveOrderBoard {
     }
 
     public Map<Price, Quantity> summaryOf(Order.Type type) {
-        switch (type) {
-            case SELL:
-                return sellSummary;
-            case BUY:
-                return buySummary;
-            default:
-                throw new IllegalStateException();
-        }
+        if (type == Order.Type.SELL) return sellSummary;
+        else if (type == Order.Type.BUY) return buySummary;
+        else throw new IllegalStateException();
     }
 
     private void addTo(Map<Price, Quantity> summary, Order order) {
