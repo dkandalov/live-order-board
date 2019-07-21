@@ -5,11 +5,20 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static sbm.Order.Type.BUY;
 import static sbm.Order.Type.SELL;
 
 public class LiveOrderBoardTests {
+    private final LiveOrderBoard orderBoard = new LiveOrderBoard();
+
+    @Test public void emptyOrderBoard() {
+        assertThat(orderBoard.summaryOf(SELL), equalTo(emptyMap()));
+        assertThat(orderBoard.summaryOf(BUY), equalTo(emptyMap()));
+    }
+
     @Test public void sellSideExample() {
         List<Order> orders = List.of(
                 new Order(new UserId("user1"), new Quantity("3.5"), new Price(306), SELL),
@@ -17,7 +26,6 @@ public class LiveOrderBoardTests {
                 new Order(new UserId("user3"), new Quantity("1.5"), new Price(307), SELL),
                 new Order(new UserId("user4"), new Quantity("2.0"), new Price(306), SELL)
         );
-        LiveOrderBoard orderBoard = new LiveOrderBoard();
         orders.forEach(orderBoard::register);
 
         assertThat(
