@@ -1,3 +1,5 @@
+See `Silver Bars-v3.1.pdf` for task description. 
+
 Since the task description doesn't have a lot of context I prefer to imagine that the task description
 is some internal email which can be followed up by actually meeting the UI team and having a chat.
 Therefore, the main goal of the implementation is to keep it as minimal and as simple as possible before all the details are clarified.
